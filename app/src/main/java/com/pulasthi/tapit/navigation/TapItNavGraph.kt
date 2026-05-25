@@ -122,8 +122,48 @@ fun TapItNavGraph(
                         launchSingleTop = true
                     }
                 },
+                onNavigateToReload = {
+                    navController.navigate(TapItRoutes.RELOAD) {
+                        launchSingleTop = true
+                    }
+                },
+                onNavigateToSendMoney = {
+                    navController.navigate(TapItRoutes.SEND_MONEY) {
+                        launchSingleTop = true
+                    }
+                },
+                onNavigateToQrPay = {
+                    navController.navigate(TapItRoutes.QR_PAY) {
+                        launchSingleTop = true
+                    }
+                },
+                onNavigateToSchedule = {
+                    navController.navigate(TapItRoutes.SCHEDULE) {
+                        launchSingleTop = true
+                    }
+                },
             )
         }
+
+        scheduleNavGraph(
+            navController = navController,
+            onExitFlow = { navController.popBackStack() },
+        )
+
+        qrPayNavGraph(
+            navController = navController,
+            onExitFlow = { navController.popBackStack() },
+        )
+
+        sendMoneyNavGraph(
+            navController = navController,
+            onExitFlow = { navController.popBackStack() },
+        )
+
+        reloadNavGraph(
+            navController = navController,
+            onExitFlow = { navController.popBackStack() },
+        )
 
         payBillsNavGraph(
             navController = navController,

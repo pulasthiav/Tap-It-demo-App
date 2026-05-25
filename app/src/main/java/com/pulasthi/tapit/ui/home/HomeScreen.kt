@@ -34,6 +34,10 @@ fun HomeScreen(
     onNavigateToSettings: () -> Unit,
     onNavigateToGovPay: () -> Unit,
     onNavigateToPayBills: () -> Unit,
+    onNavigateToReload: () -> Unit,
+    onNavigateToSendMoney: () -> Unit,
+    onNavigateToQrPay: () -> Unit,
+    onNavigateToSchedule: () -> Unit,
     viewModel: HomeViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -43,6 +47,10 @@ fun HomeScreen(
             when (serviceId) {
                 "gov_pay" -> onNavigateToGovPay()
                 "pay_bills" -> onNavigateToPayBills()
+                "reload" -> onNavigateToReload()
+                "send_money" -> onNavigateToSendMoney()
+                "qr_pay" -> onNavigateToQrPay()
+                "schedule_payment" -> onNavigateToSchedule()
             }
         }
     }
