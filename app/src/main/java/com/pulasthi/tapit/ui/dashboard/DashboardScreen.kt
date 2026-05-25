@@ -13,11 +13,19 @@ fun DashboardScreen(
     onNavigateToGovPay: () -> Unit,
     onNavigateToWallet: () -> Unit,
     onNavigateToPayBills: () -> Unit,
+    onNavigateToReload: () -> Unit,
+    onNavigateToSendMoney: () -> Unit,
+    onNavigateToQrPay: () -> Unit,
+    onNavigateToSchedule: () -> Unit,
 ) {
     MainScreen(
         onNavigateToSettings = onNavigateToSettings,
         onNavigateToGovPay = onNavigateToGovPay,
         onNavigateToWallet = onNavigateToWallet,
         onNavigateToPayBills = onNavigateToPayBills,
+        onNavigateToReload = onNavigateToReload,
+        onNavigateToSendMoney = onNavigateToSendMoney,
+        onNavigateToQrPay = onNavigateToQrPay,
+        onNavigateToSchedule = onNavigateToSchedule,
     )
 }

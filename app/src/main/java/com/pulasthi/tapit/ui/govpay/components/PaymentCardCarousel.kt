@@ -48,12 +48,14 @@ fun PaymentCardCarousel(
     }
 
     Column(modifier = modifier) {
-        Text(
-            text = fromLabel,
-            color = TapItWhite,
-            fontSize = 14.sp,
-            modifier = Modifier.padding(start = 4.dp, bottom = 8.dp),
-        )
+        if (fromLabel.isNotEmpty()) {
+            Text(
+                text = fromLabel,
+                color = TapItWhite,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(start = 4.dp, bottom = 8.dp),
+            )
+        }
         if (cards.isNotEmpty()) {
             HorizontalPager(
                 state = pagerState,

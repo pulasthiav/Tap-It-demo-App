@@ -17,6 +17,10 @@ object TapItRoutes {
     const val GOV_PAY = GovPayRoutes.GRAPH
     const val WALLET = WalletRoutes.GRAPH
     const val PAY_BILLS = PayBillsRoutes.GRAPH
+    const val RELOAD = ReloadRoutes.GRAPH
+    const val SEND_MONEY = SendMoneyRoutes.GRAPH
+    const val QR_PAY = QrPayRoutes.GRAPH
+    const val SCHEDULE = ScheduleRoutes.GRAPH
 
     const val ARG_EXPECTED_PIN = "expectedPin"
 

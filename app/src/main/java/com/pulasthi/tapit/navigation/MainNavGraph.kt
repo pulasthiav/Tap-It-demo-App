@@ -22,6 +22,10 @@ fun MainScreen(
     onNavigateToGovPay: () -> Unit,
     onNavigateToWallet: () -> Unit,
     onNavigateToPayBills: () -> Unit,
+    onNavigateToReload: () -> Unit,
+    onNavigateToSendMoney: () -> Unit,
+    onNavigateToQrPay: () -> Unit,
+    onNavigateToSchedule: () -> Unit,
 ) {
     val mainNavController = rememberNavController()
     val navBackStackEntry by mainNavController.currentBackStackEntryAsState()
@@ -37,6 +41,10 @@ fun MainScreen(
                 onNavigateToSettings = onNavigateToSettings,
                 onNavigateToGovPay = onNavigateToGovPay,
                 onNavigateToPayBills = onNavigateToPayBills,
+                onNavigateToReload = onNavigateToReload,
+                onNavigateToSendMoney = onNavigateToSendMoney,
+                onNavigateToQrPay = onNavigateToQrPay,
+                onNavigateToSchedule = onNavigateToSchedule,
             )
         }
 
@@ -63,12 +71,20 @@ private fun NavGraphBuilder.mainNavGraph(
     onNavigateToSettings: () -> Unit,
     onNavigateToGovPay: () -> Unit,
     onNavigateToPayBills: () -> Unit,
+    onNavigateToReload: () -> Unit,
+    onNavigateToSendMoney: () -> Unit,
+    onNavigateToQrPay: () -> Unit,
+    onNavigateToSchedule: () -> Unit,
 ) {
     composable(MainRoutes.HOME) {
         HomeScreen(
             onNavigateToSettings = onNavigateToSettings,
             onNavigateToGovPay = onNavigateToGovPay,
             onNavigateToPayBills = onNavigateToPayBills,
+            onNavigateToReload = onNavigateToReload,
+            onNavigateToSendMoney = onNavigateToSendMoney,
+            onNavigateToQrPay = onNavigateToQrPay,
+            onNavigateToSchedule = onNavigateToSchedule,
         )
     }
     composable(MainRoutes.MY_QR) {
