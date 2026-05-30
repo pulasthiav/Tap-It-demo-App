@@ -1,5 +1,6 @@
 package com.pulasthi.tapit.ui.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -9,11 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.foundation.Image
 import com.pulasthi.tapit.R
 import com.pulasthi.tapit.ui.theme.TapItWhite
 
@@ -29,12 +30,13 @@ fun AuthTopSection(
             .padding(horizontal = 24.dp),
     ) {
         Image(
-            painter = painterResource(R.drawable.ic_tap_logo),
-            contentDescription = null,
+            painter = painterResource(R.drawable.image_1),
+            contentDescription = "Tap-It",
             modifier = Modifier
                 .align(Alignment.TopStart)
-                .padding(top = 16.dp)
-                .size(32.dp),
+                .size(48.dp)
+                .padding(start = 8.dp),
+            contentScale = ContentScale.Fit,
         )
         Text(
             text = title,
