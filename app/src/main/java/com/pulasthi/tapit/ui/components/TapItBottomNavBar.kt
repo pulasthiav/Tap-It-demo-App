@@ -24,7 +24,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pulasthi.tapit.navigation.BottomNavItem
+import com.pulasthi.tapit.ui.theme.TapItBluePrimary
 import com.pulasthi.tapit.ui.theme.TapItBottomNavGlass
+import com.pulasthi.tapit.ui.theme.TapItTextSecondary
 import com.pulasthi.tapit.ui.theme.TapItWhite
 
 @Composable
@@ -69,8 +71,8 @@ private fun BottomNavBarItem(
     onClick: () -> Unit,
 ) {
     val iconSize = if (item.isCenterEmphasis && selected) 32.dp else 26.dp
-    val iconTint = if (selected) TapItWhite else TapItWhite.copy(alpha = 0.75f)
-    val labelColor = if (selected) TapItWhite else TapItWhite.copy(alpha = 0.8f)
+    val iconTint = if (selected) TapItBluePrimary else TapItTextSecondary
+    val labelColor = if (selected) TapItBluePrimary else TapItTextSecondary
 
     Column(
         modifier = Modifier

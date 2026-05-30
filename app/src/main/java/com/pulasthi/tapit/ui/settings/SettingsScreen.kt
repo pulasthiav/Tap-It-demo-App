@@ -1,5 +1,6 @@
 package com.pulasthi.tapit.ui.settings
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,12 +18,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.pulasthi.tapit.ui.home.PromoBanner
+import com.pulasthi.tapit.R
 import com.pulasthi.tapit.ui.settings.components.SettingsMenuGrid
 import com.pulasthi.tapit.ui.settings.components.SettingsScaffold
 import com.pulasthi.tapit.ui.theme.TapItBluePrimary
@@ -55,9 +59,14 @@ fun SettingsScreen(
                 .fillMaxSize()
                 .padding(horizontal = 16.dp, vertical = 20.dp),
         ) {
-            PromoBanner(
-                titleLine1 = "The Secret to Safe",
-                titleLine2 = "Online Money Transfers",
+            Image(
+                painter = painterResource(R.drawable.image_27),
+                contentDescription = "The Secret to Safe Online Money Transfers",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+                    .clip(RoundedCornerShape(20.dp)),
+                contentScale = ContentScale.FillWidth,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
