@@ -3,19 +3,18 @@ package com.pulasthi.tapit.ui.myqr
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.QrCode2
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,6 +36,14 @@ import com.pulasthi.tapit.ui.theme.TapItWhite
 import com.pulasthi.tapit.viewmodel.MyQrViewModel
 import com.pulasthi.tapit.viewmodel.QrCodeType
 
+private object MyQrDimens {
+    val CardTopPadding = 120.dp
+    val CardHorizontalPadding = 24.dp
+    val CardInnerPadding = 24.dp
+    val CardCornerRadius = 28.dp
+    val BottomNavClearance = 88.dp
+}
+
 @Composable
 fun MyQrScreen(
     viewModel: MyQrViewModel = viewModel(),
@@ -45,49 +52,62 @@ fun MyQrScreen(
     val isPersonal = uiState.selectedType == QrCodeType.Personal
 
     FlowScreenScaffold(title = "My QR") {
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 24.dp, vertical = 20.dp)
-                .padding(bottom = 88.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .background(TapItBluePrimary)
+                .padding(bottom = MyQrDimens.BottomNavClearance),
         ) {
-            QrTypeTab(
-                label = "Personal QR",
-                selected = isPersonal,
-                onClick = { viewModel.onQrTypeSelected(QrCodeType.Personal) },
-            )
-
-            Text(
-                text = uiState.instruction,
-                color = TapItTextPrimary,
-                fontSize = 14.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(vertical = 20.dp),
-            )
-
-            Box(
-                modifier = Modifier
-                    .size(240.dp)
-                    .background(TapItWhite, RoundedCornerShape(12.dp)),
-                contentAlignment = Alignment.Center,
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Icon(
-                    imageVector = Icons.Default.QrCode2,
-                    contentDescription = "QR code",
-                    tint = TapItTextPrimary,
-                    modifier = Modifier.size(200.dp),
-                )
+                Surface(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = MyQrDimens.CardHorizontalPadding)
+                        .padding(top = MyQrDimens.CardTopPadding),
+                    shape = RoundedCornerShape(MyQrDimens.CardCornerRadius),
+                    color = TapItWhite,
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(MyQrDimens.CardInnerPadding),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        QrTypeTab(
+                            label = "Personal QR",
+                            selected = isPersonal,
+                            onClick = { viewModel.onQrTypeSelected(QrCodeType.Personal) },
+                        )
+
+                        Text(
+                            text = uiState.instruction,
+                            color = TapItTextPrimary,
+                            fontSize = 14.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(vertical = 20.dp),
+                        )
+
+                        Box(
+                            modifier = Modifier
+                                .size(240.dp)
+                                .background(TapItWhite, RoundedCornerShape(12.dp)),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.QrCode2,
+                                contentDescription = "QR code",
+                                tint = TapItTextPrimary,
+                                modifier = Modifier.size(200.dp),
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.weight(1f))
             }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            QrTypeTab(
-                label = "Payment QR",
-                selected = !isPersonal,
-                onClick = { viewModel.onQrTypeSelected(QrCodeType.Payment) },
-                inactiveStyle = true,
-            )
         }
     }
 }

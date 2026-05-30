@@ -19,12 +19,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,16 +48,54 @@ import com.pulasthi.tapit.ui.theme.TapItTextPrimary
 import com.pulasthi.tapit.ui.theme.TapItTextSecondary
 import com.pulasthi.tapit.ui.theme.TapItWhite
 import com.pulasthi.tapit.ui.theme.TapItError
+import com.pulasthi.tapit.ui.theme.TapItLinkBlue
 import com.pulasthi.tapit.viewmodel.HistoryTab
 import com.pulasthi.tapit.viewmodel.HistoryViewModel
-import com.pulasthi.tapit.viewmodel.TransactionItem
+import com.pulasthi.tapit.viewmodel.Transaction
 import com.pulasthi.tapit.viewmodel.TransactionStatus
 
+/** Transaction History tab screen (also referred to as TransactionHistoryScreen). */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryScreen(
     viewModel: HistoryViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var datePickerTarget by remember { mutableStateOf<DatePickerTarget?>(null) }
+
+    datePickerTarget?.let { target ->
+        val initialMillis = when (target) {
+            DatePickerTarget.Start -> uiState.startDateMillis
+            DatePickerTarget.End -> uiState.endDateMillis
+        }
+        val datePickerState = rememberDatePickerState(initialSelectedDateMillis = initialMillis)
+
+        DatePickerDialog(
+            onDismissRequest = { datePickerTarget = null },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let { millis ->
+                            when (target) {
+                                DatePickerTarget.Start -> viewModel.onStartDateSelected(millis)
+                                DatePickerTarget.End -> viewModel.onEndDateSelected(millis)
+                            }
+                        }
+                        datePickerTarget = null
+                    },
+                ) {
+                    Text("OK", color = TapItLinkBlue)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { datePickerTarget = null }) {
+                    Text("Cancel", color = TapItTextSecondary)
+                }
+            },
+        ) {
+            DatePicker(state = datePickerState)
+        }
+    }
 
     FlowScreenScaffold(title = "Transaction History") {
         Column(
@@ -67,8 +112,11 @@ fun HistoryScreen(
             HistoryDateRangeRow(
                 fromDate = uiState.fromDate,
                 toDate = uiState.toDate,
+                onFromDateClick = { datePickerTarget = DatePickerTarget.Start },
+                onToDateClick = { datePickerTarget = DatePickerTarget.End },
             )
 
+            // filteredTransactions is derived in ViewModel state and recomposes on tab/date/repository changes.
             if (uiState.filteredTransactions.isEmpty()) {
                 Box(
                     modifier = Modifier
@@ -98,6 +146,11 @@ fun HistoryScreen(
             }
         }
     }
+}
+
+private enum class DatePickerTarget {
+    Start,
+    End,
 }
 
 @Composable
@@ -146,6 +199,8 @@ private fun HistoryTabBar(
 private fun HistoryDateRangeRow(
     fromDate: String,
     toDate: String,
+    onFromDateClick: () -> Unit,
+    onToDateClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -154,16 +209,24 @@ private fun HistoryDateRangeRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        DateField(date = fromDate)
+        DateField(date = fromDate, onClick = onFromDateClick)
         Text(text = "To", color = TapItTextPrimary, fontSize = 14.sp)
-        DateField(date = toDate)
+        DateField(date = toDate, onClick = onToDateClick)
     }
 }
 
 @Composable
-private fun DateField(date: String) {
+private fun DateField(
+    date: String,
+    onClick: () -> Unit,
+) {
     Row(
         modifier = Modifier
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onClick,
+            )
             .background(TapItWhite, RoundedCornerShape(8.dp))
             .padding(horizontal = 12.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -184,7 +247,7 @@ private fun DateField(date: String) {
 }
 
 @Composable
-private fun TransactionRow(item: TransactionItem) {
+private fun TransactionRow(item: Transaction) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
