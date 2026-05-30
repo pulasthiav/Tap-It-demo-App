@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.TapIt" parent="android:Theme.Material.Light.NoActionBar" />
-
     <style name="Theme.TapIt.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash_blue</item>
-        <!-- Transparent icon avoids Android 12+ circular crop; full logo shown in Compose. -->
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon_transparent</item>
         <item name="windowSplashScreenIconBackgroundColor">@color/splash_blue</item>
         <item name="postSplashScreenTheme">@style/Theme.TapIt</item>
+        <item name="android:windowSplashScreenBehavior">icon_preferred</item>
     </style>
 </resources>
